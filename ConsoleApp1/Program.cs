@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Subjects;
 
 namespace ConsoleApp1
@@ -12,7 +13,15 @@ namespace ConsoleApp1
             var registrar = new MyConventionRegistrar();
             registrar.Subscribe(typeDiscoverySubject);
 
-            typeDiscoverySubject.OnNext(typeof(string));
+            foreach (Type type in EnumerateTypes())
+            {
+                typeDiscoverySubject.OnNext(type);
+            }
+        }
+
+        private static IEnumerable<Type> EnumerateTypes()
+        {
+            yield return typeof(string);
         }
     }
 }
